@@ -1,0 +1,46 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'vm1-windows-system'
+    static_configs:
+      - targets: ['192.168.56.102:9182']
+        labels:
+          env: 'vm1-monolith'
+          os: 'windows'
+
+  - job_name: 'vm1-fastapi'
+    static_configs:
+      - targets: ['192.168.56.102:8001']
+        labels:
+          env: 'vm1-monolith'
+          app: 'fastapi'
+
+  - job_name: 'vm2-docker-system'
+    static_configs:
+      - targets: ['192.168.56.103:9100']
+        labels:
+          env: 'vm2-docker'
+          os: 'linux'
+
+  - job_name: 'vm2-fastapi'
+    static_configs:
+      - targets: ['192.168.56.103:8002']
+        labels:
+          env: 'vm2-docker'
+          app: 'fastapi'
+
+  - job_name: 'vm3-k3s-system'
+    static_configs:
+      - targets: ['192.168.56.104:9100']
+        labels:
+          env: 'vm3-k3s'
+          os: 'linux'
+
+  - job_name: 'vm3-fastapi'
+    static_configs:
+      - targets: ['192.168.56.104:8003']
+        labels:
+          env: 'vm3-k3s'
+          app: 'fastapi'
