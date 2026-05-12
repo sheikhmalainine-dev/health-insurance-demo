@@ -33,14 +33,14 @@ scrape_configs:
 
   - job_name: 'vm3-k3s-system'
     static_configs:
-      - targets: ['192.168.56.104:9100']
+      - targets: ['192.168.56.101:9100']
         labels:
           env: 'vm3-k3s'
           os: 'linux'
 
   - job_name: 'vm3-fastapi'
     static_configs:
-      - targets: ['192.168.56.104:8003']
+      - targets: ['192.168.56.101:30003']
         labels:
           env: 'vm3-k3s'
           app: 'fastapi'

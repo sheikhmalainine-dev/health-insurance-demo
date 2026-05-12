@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-insurance-api
+  namespace: default
+  labels:
+    app: health-insurance-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-insurance-api
+  template:
+    metadata:
+      labels:
+        app: health-insurance-api
+    spec:
+      containers:
+        - name: health-insurance-api
+          image: health-insurance-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8003
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8003
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: health-insurance-api
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: health-insurance-api
+  ports:
+    - port: 8003
+      targetPort: 8003
+      nodePort: 30003
